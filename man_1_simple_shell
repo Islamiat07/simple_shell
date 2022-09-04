@@ -1,0 +1,78 @@
+.\" Manpage for shell
+.TH man 8 "4 September 2022" "1.0" "simple_shell man page"
+.SH NAME
+shell \- a limited simple_shell
+.SH SYNOPSIS
+shell [int argc, char **argv, char **env]
+.SH DESCRIPTION
+simple_shell, developed in September 2022, is version of the .BKen Thompson shell. The B.Ken Thompson 
+shell was developed in 1971 as the first Unix shell and led to the
+developement of all later Unix shell.
+.SH OVERVIEW
+Shell is a command that reads lines from either a file or the terminal,
+interprets them, and generally executes other commands. It is the program that can be
+launched from within the terminal with ./simple_shell within the simple shell folder.
+If no arguments are present and if the standard input of the shell is connected to a terminal,
+the shell is considered an interactive shell. An interactive shell generally prompts before
+each command and handles programming and command errors differently.
+
+.I Argument List Processing.
+.br
+shell does not handle arguments or flags.
+
+.I Lexical Structure
+.br
+The shell reads input in terms of lines from a file and breaks it up into
+words at whitespace (blanks and tabs)
+
+.I Quoting
+.br
+Quoting is not used to	remove the special meaning of certain characters or
+words to the shell, such as operators, whitespace, keywords, or alias names.
+
+.I Reserved Words
+.br
+There are no reserved words or words that have special meaning to shell.
+
+.I Aliases
+.br
+An alias is a name and corresponding value set using the alias built-in
+command. Shell does not allow for aliases.
+
+.I Simple Commands
+.br
+If a simple command has been recognized, the shell performs the following actions:
+
+.P
+1. Leading words of the form ``name=value'' are stripped off and
+assigned to the environment of the simple command.  Redirection
+operators and their arguments (as described below) are stripped off and saved for  processing.
+
+.P
+2. The remaining   words are expanded as described in the section called
+Word Expansions, and the first remaining word is considered the com-
+mand name and	  the command is located.  The remaining words are con-
+sidered the arguments of the command.  If no command name resulted,
+then the ``name=value'' variable assignments recognized in 1)	affect
+the current shell.
+
+.I Redirections
+.br
+Redirections are not used in shell.
+
+.I Search and Execution
+.br
+There are two types of commands shell functions, built-in commands,
+.P
+When a shell function is executed,  all of the shell positional parameters
+(except $0, which remains unchanged) are set to the arguments of the
+shell function.  The variables which are explicitly place in the environment of
+the command (by placing assignments to them before the function name)
+are made local to the function and are set to the values
+given.  Then the command given in the function definition is executed.
+The positional parameters are restored to their original values when the
+command completes. This all occurs within the current shell.
+.P
+Shell built-in commands are executed internally to  the shell, without
+spawning a new process. Shell handles three builtins:
+.br
