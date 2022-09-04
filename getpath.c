@@ -79,3 +79,58 @@ char *get_env(char **env)
 	buf[k] = '\0';
 	return (buf);
 }
+
+/**
+ * dirTok - split directories to tokens
+ * @env: double pointer
+ * Return: tokens
+ */
+char **dirTok(char **env)
+{
+	char **tokens;
+	char *tok;
+	int i, j;
+	char *dir;
+
+	dir = get_env(env);
+	i = 0;
+	j = 0;
+	while (env[j])
+		j++;
+	tokens = malloc(4096);
+	buffers3(tokens, NULL);
+
+	tok = strtok(dir, " :");
+	while (tok != NULL)
+	{
+		tokens[i] = tok;
+		i++;
+		tok = strtok(NULL, " :");
+	}
+	tokens[i] = NULL;
+	return (tokens);
+}
+
+/**
+ * checkPath - checks command input against path
+ * @dir: dirctory tokens
+ * @command: command line input
+ * Return: full path on success
+ */
+char *checkPath(char **dir, char *command)
+{
+	struct stat st;
+	char *fullPath;
+
+	if (command[0] == '/')
+		return (command);
+
+	while (*dir)
+	{
+		fullPath = pathCat(*dir, command);
+		if (stat(fullPath, &st) == 0)
+			return (fullPath);
+		dir++;
+	}
+	return (NULL);
+}
