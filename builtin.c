@@ -51,3 +51,27 @@ int printenv(char **command)
 	}
 	return (0);
 }
+
+/**
+ * checkBuiltins - check for builtins and call function
+ * @combine: full directory
+ * @command: command line input
+ * Return: path to builtin or process from directory
+ */
+int checkBuiltins(char *combine, char **command)
+{
+	int i;
+	char *array[] = {"exit", "cd", "env", NULL};
+
+	typedef int (*Builtins)(char **);
+	Builtins functions[] = {&exit_sh, &cd, &printenv};
+
+	i = 0;
+	while (array[i] != NULL)
+	{
+		if (_strcmp(array[i], command[0]) == 0)
+			return (functions[i](command));
+		i++;
+	}
+	return (execute(combine, command));
+}
