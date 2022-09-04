@@ -24,3 +24,38 @@ char *get_line(void)
 	}
 	return (buf);
 }
+
+/**
+ * split_line - split line into tokens
+ * @line: command line input
+ * Return: tokens
+ */
+char **split_line(char *line)
+{
+	char *dup_buf;
+	char *token;
+	char *toks;
+	char **tok;
+	int i = 1;
+
+	dup_buf = _strdup(line);
+	token = strtok(line, DELIM);
+	while (token)
+	{
+		token = strtok(NULL, DELIM);
+		i++;
+	}
+	tok = malloc(4096);
+	buffers4(tok, NULL);
+
+	toks = strtok(dup_buf, DELIM);
+	i = 0;
+	while (toks)
+	{
+		tok[i] = toks;
+		toks = strtok(NULL, DELIM);
+		i++;
+	}
+	tok[i] = '\0';
+	return (tok);
+}
