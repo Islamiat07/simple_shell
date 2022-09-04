@@ -76,3 +76,91 @@ command completes. This all occurs within the current shell.
 Shell built-in commands are executed internally to  the shell, without
 spawning a new process. Shell handles three builtins:
 .br
+
+.B exit
+.br
+ -Exits the shell
+Usage: exit
+ No flags.
+.br
+.B env
+.br
+ -Prints the current environment.
+ Usage: env
+ No flags.
+.br
+.B man
+.br
+ -Prints the man page for shell
+ Usage: man shell
+ No flags.
+
+.SH PATH SEARCH
+.br
+When locating a command, the shell first looks to see if it has a shell
+function by that name.  Then it looks for a built-in command by that
+name.  If a built-in command is not found, one of two things happen:
+.TP
+1. Command names containing a slash are simply executed without performing
+any searches.
+.TP
+2. The shell searches each entry in the PATH environment variable in
+turn for the command. The value of the PATH variable should be a
+series of entries separated by colons.  Each entry consists of a
+directory name.  The current directory may be indicated implicitly
+by an empty directory name, or explicitly by a single period.
+
+.SH EXIT STATUS
+Errors that are detected by the shell, such as a syntax error, will cause
+the shell to exit with a non-zero exit status.  If the shell is not an
+interactive shell, the execution of the shell file will be  aborted.  Oth-
+erwise the shell will return the exit status of the last command exe-
+cuted, or if the exit builtin is used with a numeric argument, it will
+return the argument.
+
+.SH EXAMPLE
+.B The shell should work like this in interactive mode:
+.br
+.I $ ./hsh
+.br
+.I ($) /bin/ls
+.br
+.I hsh main.c shell.c
+.br
+.I ($)
+.br
+.I ($) exit
+.br
+.I $
+
+.B Also like this in non-interactive mode:
+.br
+.I $ echo "/bin/ls" | ./hsh
+.br
+.I hsh main.c shell.c test_ls_2
+.br
+.I $
+.br
+.I $ cat test_ls_2
+.br
+.I /bin/ls
+.br
+.I /bin/ls
+.br
+.I $
+.br
+.I $ cat test_ls_2 | ./hsh
+.br
+.I hsh main.c shell.c test_ls_2
+.br
+.I hsh main.c shell.c test_ls_2
+.br
+.I $
+.br
+.SH SEE ALSO
+builtin - chsh - echo - execve - pwd - getline - strtok - strdup - str_nconcat.
+.SH HISTORY OF SHELLS
+The Thompson shell, appeared in Version 1 AT&T Unix. It was superseeded in Version 7
+AT&T Unix by the Bourne Shell.
+.SH AUTHORS
+This version of shell was written by Precious Oranye and Ademide Okedele.
